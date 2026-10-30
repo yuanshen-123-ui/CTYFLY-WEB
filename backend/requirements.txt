@@ -6,4 +6,4 @@ bcrypt>=4.1
 # httpx 出站 HTTPS 的 CA 包，2026.10.23 起移除了被入侵的 emSign 中间 CA
 certifi>=2026.10.23
 # 文件上传，航司 Logo 所需的 multipart 表单解析
-python-multipart>=0.0.18
+python-multipart>=0.0.32
