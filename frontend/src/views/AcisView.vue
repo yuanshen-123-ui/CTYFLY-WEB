@@ -103,11 +103,6 @@ load();
               <source type="image/webp" :srcset="`${acisGlyph800Webp} 800w, ${acisGlyph1280Webp} 1280w`" sizes="(max-width: 720px) 94vw, 560px" />
               <img :src="acisGlyph" alt="ACIS" class="acis-hero-glyph" width="1600" height="576" fetchpriority="high" decoding="async" />
             </picture>
-            <div class="acis-tagline">
-              <span class="acis-tagline-en">Air Community Incident Search</span>
-              <span class="acis-tagline-dot" aria-hidden="true"></span>
-              <span class="acis-tagline-cn">飞圈事件智能检索系统</span>
-            </div>
           </div>
         </div>
 
@@ -119,7 +114,6 @@ load();
 
         <div class="acis-hero-actions">
           <router-link class="acis-submit-btn" to="/acis/submit"><Icon name="plus" :size="14" /> 投稿事件</router-link>
-          <span class="acis-notice"><span class="acis-notice-dot" aria-hidden="true"></span> 使用、投稿与纠错全程免登录</span>
           <span class="acis-total">资料库已收录 <strong>{{ total }}</strong> 条事件</span>
         </div>
       </section>
@@ -314,32 +308,6 @@ load();
   font-size: clamp(58px, 7.4vw, 104px);
   letter-spacing: 0.03em;
 }
-.acis-tagline {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-  color: var(--text-2);
-}
-.acis-tagline-en {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0.82;
-}
-.acis-tagline-dot {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: rgba(64, 156, 255, 0.6);
-}
-.acis-tagline-cn {
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  opacity: 0.8;
-}
 
 /* ---------- 搜索区 ---------- */
 .acis-search {
@@ -455,21 +423,6 @@ load();
   border-color: rgba(160, 205, 255, 0.18);
   background: rgba(35, 58, 88, 0.46);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-}
-.acis-notice {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text-2);
-  font-size: 11.5px;
-  letter-spacing: 0.02em;
-}
-.acis-notice-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #34c759;
-  box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.12);
 }
 .acis-total {
   margin-left: auto;
@@ -747,9 +700,6 @@ load();
   .acis-inner { padding-left: 18px; padding-right: 18px; padding-top: 20px; }
   .acis-hero { padding: 24px 20px; border-radius: 24px; }
   .acis-hero-picture { width: 94%; }
-  .acis-tagline { gap: 7px; }
-  .acis-tagline-en { font-size: 9.5px; letter-spacing: 0.12em; }
-  .acis-tagline-cn { font-size: 11px; }
   .acis-watermark { display: none; }
   .acis-total { width: 100%; margin-left: 0; margin-top: 2px; }
   .acis-search { border-radius: 20px; flex-wrap: wrap; padding: 10px 12px; }
