@@ -49,7 +49,6 @@ onMounted(async () => {
         <img :src="acisGlyph" alt="ACIS" class="acis-entry-logo" width="1600" height="576" fetchpriority="high" decoding="async" />
       </picture>
       <span class="acis-entry-copy">
-        <span class="acis-entry-kicker">免登录 · 直接使用</span>
         <span class="acis-entry-title">ACIS 飞圈事件检索</span>
         <span class="acis-entry-desc">浏览全部飞圈事件资料，支持搜索、投稿与纠错</span>
       </span>
@@ -161,7 +160,6 @@ onMounted(async () => {
   filter: drop-shadow(0 6px 14px rgba(10, 110, 210, 0.18));
 }
 .acis-entry-copy { position: relative; display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
-.acis-entry-kicker { color: var(--blue); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; }
 .acis-entry-title { color: var(--text); font-size: 16px; font-weight: 700; letter-spacing: 0.01em; }
 .acis-entry-desc { color: var(--text-2); font-size: 12px; line-height: 1.5; }
 .acis-entry-cta {
@@ -232,7 +230,6 @@ onMounted(async () => {
   .acis-entry-glow { display: none; }
   .acis-entry-picture { width: 76px; }
   .acis-entry-logo { width: 100%; }
-  .acis-entry-kicker { font-size: 9px; letter-spacing: 0.04em; }
   .acis-entry-title { font-size: 14px; line-height: 1.35; }
   .acis-entry-desc { display: none; }
   .acis-entry-cta { padding: 6px 8px; font-size: 10px; }
