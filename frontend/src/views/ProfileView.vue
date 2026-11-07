@@ -97,7 +97,7 @@ async function changePwd() {
           <div style="font-size: 13px; color: var(--text-2); margin-top: 2px">CID {{ auth.user?.cid }} · {{ auth.user?.email }}</div>
           <div style="margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap">
             <span class="tag tag-blue">管制等级 {{ auth.user?.rating }}</span>
-            <span class="tag tag-purple">飞行员 {{ auth.user?.pilot_rank }}</span>
+            <span class="tag tag-purple">{{ auth.user?.pilot_rank === '学员' ? '飞行学员' : `飞行员 ${auth.user?.pilot_rank || ''}` }}</span>
             <span v-if="auth.user?.is_controller" class="tag tag-green">在职管制员</span>
             <span v-if="auth.isAdmin" class="tag tag-red">管理员</span>
           </div>

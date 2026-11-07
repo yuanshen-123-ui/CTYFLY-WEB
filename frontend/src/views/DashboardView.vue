@@ -102,7 +102,7 @@ function hhmm(t) {
         <div class="dash-meta">
           <strong>CID {{ auth.user?.cid }}</strong>
           <span v-if="auth.user?.is_controller" class="tag tag-blue">管制员 {{ auth.user?.rating }}</span>
-          <span v-else class="tag">飞行员 {{ auth.user?.pilot_rank }}</span>
+          <span v-else class="tag" title="飞行等级与是否加入虚拟航司无关">{{ auth.user?.pilot_rank === '学员' ? '飞行学员' : `飞行员 ${auth.user?.pilot_rank || ''}` }}</span>
           <template v-if="me?.airline">
             <span class="tag tag-blue">{{ me.airline.name }}，{{ me.airline.icao }}</span>
             <span v-if="me.airline.position" class="tag">{{ me.airline.position }}</span>
@@ -148,8 +148,11 @@ function hhmm(t) {
           <div class="stat-label">我的钱包余额</div>
         </div>
         <div class="stat">
-          <div class="stat-num stat-sm">{{ me?.airline ? me.airline.name : '未加入' }}</div>
-          <div class="stat-label">我的航司{{ me?.airline?.position ? ' · ' + me.airline.position : '' }}</div>
+          <div class="stat-num stat-sm">{{ me?.airline ? me.airline.name : '未加入航司' }}</div>
+          <div class="stat-label">
+            我的航司<span v-if="me?.airline?.position"> · {{ me.airline.position }}</span>
+            <router-link v-if="!me?.airline" to="/airlines" class="stat-link">申请加入 →</router-link>
+          </div>
         </div>
       </div>
 
@@ -466,4 +469,12 @@ function hhmm(t) {
 
 .stat-unit { font-size: 14px; font-weight: 600; margin-left: 2px; color: var(--text-2); }
 .stat-sm { font-size: 17px; }
+.stat-link {
+  margin-left: 6px;
+  color: var(--blue);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.stat-link:hover { text-decoration: underline; }
 </style>
