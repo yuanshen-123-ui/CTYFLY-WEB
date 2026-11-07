@@ -7,27 +7,27 @@
   --text: #f5f5f7;
   --text-2: #a1a1a6;
   --gray: #6e6e73;
-  --bg: #0b1120;
-  --glass: rgba(30, 41, 59, 0.45);
-  --glass-strong: rgba(30, 41, 59, 0.6);
-  --glass-border: rgba(148, 163, 184, 0.16);
+  --bg: #000000;
+  --glass: rgba(28, 28, 30, 0.55);
+  --glass-strong: rgba(28, 28, 30, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.14);
   --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-  --topbar-bg: rgba(11, 17, 32, 0.5);
-  --topbar-bg-strong: rgba(30, 41, 59, 0.72);
-  --topbar-pill-bg: rgba(17, 24, 39, 0.9);
-  --nav-panel-bg: #111827;
-  --surface: rgba(148, 163, 184, 0.08);
-  --surface-strong: rgba(148, 163, 184, 0.14);
-  --border: rgba(148, 163, 184, 0.12);
-  --input-border: rgba(148, 163, 184, 0.16);
-  --tab-active-bg: rgba(51, 65, 85, 0.95);
-  --modal-bg: rgba(30, 41, 59, 0.62);
+  --topbar-bg: rgba(10, 10, 12, 0.6);
+  --topbar-bg-strong: rgba(28, 28, 30, 0.75);
+  --topbar-pill-bg: rgba(20, 20, 22, 0.9);
+  --nav-panel-bg: #131315;
+  --surface: rgba(255, 255, 255, 0.07);
+  --surface-strong: rgba(255, 255, 255, 0.12);
+  --border: rgba(255, 255, 255, 0.1);
+  --input-border: rgba(255, 255, 255, 0.14);
+  --tab-active-bg: rgba(60, 60, 64, 0.95);
+  --modal-bg: rgba(28, 28, 30, 0.7);
   --btn-dark-bg: #f5f5f7;
   --btn-dark-fg: #1d1d1f;
   /* 午夜藏青：拉开层次的面板底色 + 微弱蓝色辉光，DeepSeek 改造方案第 1/5 点*/
-  --glass: rgba(30, 41, 59, 0.45);
-  --glass-strong: rgba(30, 41, 59, 0.60);
-  --aurora-bg: linear-gradient(180deg, #0b1120 0%, #0f1a30 52%, #16233f 100%);
+  --glass: rgba(28, 28, 30, 0.55);
+  --glass-strong: rgba(28, 28, 30, 0.72);
+  --aurora-bg: #000000;
   --lg-rim: rgba(255, 255, 255, 0.30);
   --lg-rim-2: rgba(255, 255, 255, 0.10);
   --lg-seam: rgba(0, 0, 0, 0.48);
@@ -36,8 +36,8 @@
     rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06) 38%,
     rgba(255, 255, 255, 0.07) 62%, rgba(255, 255, 255, 0.16));
   --surface-solid: #1c1c1e;
-  --auth-block: #0b1120;
-  --auth-card-bg: #1e293b;
+  --auth-block: #000000;
+  --auth-card-bg: #1c1c1e;
   --auth-card-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
 }
 [data-theme="dark"] .aurora::before,
@@ -50,7 +50,7 @@
 [data-theme="dark"] .glass.card:hover,
 [data-theme="auto"] .glass.card:hover {
   transform: translateY(-2px);
-  border-color: rgba(148, 163, 184, 0.35);
+  border-color: rgba(255, 255, 255, 0.28);
   box-shadow: 0 14px 44px rgba(0, 0, 0, 0.55);
 }
 [data-theme="dark"] .tag-green { color: var(--green); }
@@ -69,25 +69,25 @@
     --text: #f5f5f7;
     --text-2: #a1a1a6;
     --gray: #6e6e73;
-    --bg: #0b1120;
-    --glass: rgba(30, 41, 59, 0.45);
-    --glass-strong: rgba(30, 41, 59, 0.6);
-    --glass-border: rgba(148, 163, 184, 0.16);
+    --bg: #000000;
+    --glass: rgba(28, 28, 30, 0.55);
+    --glass-strong: rgba(28, 28, 30, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.14);
     --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-    --topbar-bg: rgba(11, 17, 32, 0.5);
-    --topbar-bg-strong: rgba(30, 41, 59, 0.72);
-    --topbar-pill-bg: rgba(17, 24, 39, 0.9);
-    --nav-panel-bg: #111827;
-    --surface: rgba(148, 163, 184, 0.08);
-    --surface-strong: rgba(148, 163, 184, 0.14);
-    --border: rgba(148, 163, 184, 0.12);
-    --input-border: rgba(148, 163, 184, 0.16);
-    --tab-active-bg: rgba(51, 65, 85, 0.95);
-    --modal-bg: rgba(30, 41, 59, 0.62);
+    --topbar-bg: rgba(10, 10, 12, 0.6);
+    --topbar-bg-strong: rgba(28, 28, 30, 0.75);
+    --topbar-pill-bg: rgba(20, 20, 22, 0.9);
+    --nav-panel-bg: #131315;
+    --surface: rgba(255, 255, 255, 0.07);
+    --surface-strong: rgba(255, 255, 255, 0.12);
+    --border: rgba(255, 255, 255, 0.1);
+    --input-border: rgba(255, 255, 255, 0.14);
+    --tab-active-bg: rgba(60, 60, 64, 0.95);
+    --modal-bg: rgba(28, 28, 30, 0.7);
     --btn-dark-bg: #f5f5f7;
     --btn-dark-fg: #1d1d1f;
-      --glass: rgba(30, 41, 59, 0.45);
-    --glass-strong: rgba(30, 41, 59, 0.60);
+      --glass: rgba(28, 28, 30, 0.55);
+    --glass-strong: rgba(28, 28, 30, 0.72);
 
     --lg-rim: rgba(255, 255, 255, 0.30);
     --lg-rim-2: rgba(255, 255, 255, 0.10);
@@ -97,8 +97,8 @@
       rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06) 38%,
       rgba(255, 255, 255, 0.07) 62%, rgba(255, 255, 255, 0.16));
     --surface-solid: #1c1c1e;
-    --auth-block: #0b1120;
-    --auth-card-bg: #1e293b;
+    --auth-block: #000000;
+    --auth-card-bg: #1c1c1e;
     --auth-card-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
   }
     [data-theme="auto"] .aurora::before,
