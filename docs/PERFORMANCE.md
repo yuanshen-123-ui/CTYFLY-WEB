@@ -76,7 +76,7 @@ LCP 从 4.3 s 降到 2.0 s，主要来自响应式 AVIF/WebP 图片。
 
 - 前端 `src/perf.js` 采集 LCP、CLS、INP 近似值和 TTFB，通过 `sendBeacon` 上报 `/api/perf`
 - 后端 `perf_metrics` 表存储真实用户指标
-- `.lighthouserc.json` 设定 LCP 2.5 s、CLS 0.1 的硬阈值
+- `.github/lighthouserc.json` 设定 LCP 2.5 s、CLS 0.1 的硬阈值
 - `.github/workflows/performance.yml` 在 PR 与 main 推送时构建并跑 Lighthouse CI
 
 ## 复测命令
@@ -86,7 +86,7 @@ LCP 从 4.3 s 降到 2.0 s，主要来自响应式 AVIF/WebP 图片。
 npx lighthouse https://test.ccflysim.cn --output=json --output-path=baseline.json
 
 # Lighthouse CI
-npx @lhci/cli autorun --config=.lighthouserc.json
+npx @lhci/cli autorun --config=.github/lighthouserc.json
 
 # 全站冒烟
 pwsh ./deploy/smoke.ps1

@@ -2,9 +2,9 @@
 一键跑完所有工程化门禁，与 CI 完全同一条命令链
 
 用法：
-    powershell -NoProfile -File .\check-all.ps1 # 全部
-    powershell -NoProfile -File .\check-all.ps1 -Backend # 只跑后端
-    powershell -NoProfile -File .\check-all.ps1 -Frontend # 只跑前端
+    powershell -NoProfile -File .\scripts\check-all.ps1 # 全部
+    powershell -NoProfile -File .\scripts\check-all.ps1 -Backend # 只跑后端
+    powershell -NoProfile -File .\scripts\check-all.ps1 -Frontend # 只跑前端
 
 说明，写给接手人：
 - 后端依赖：pip install -r backend/requirements.lock -r backend/requirements-dev.txt
@@ -15,12 +15,12 @@
 #>
 param(
     [switch]$Backend,
-    [switch]$Frontend,
+    [switch]$Frontend
 )
 $ErrorActionPreference = 'Continue'
 if (-not $Backend -and -not $Frontend) { $Backend = $true; $Frontend = $true }
 
-$root = $PSScriptRoot
+$root = Split-Path -Parent $PSScriptRoot
 $results = [System.Collections.Generic.List[object]]::new()
 
 function Run-Gate {
