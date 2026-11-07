@@ -68,6 +68,10 @@ onBeforeUnmount(() => swapTimers.forEach(clearTimeout));
 
 const route = useRoute();
 const router = useRouter();
+
+// 首屏不做入场动画，避免拖慢 FCP/LCP；之后每次换页才淡入。
+const animateView = ref(false);
+watch(() => route.path, () => { animateView.value = true; }, { flush: 'pre' });
 // 落地页、认证页、政策页与隐私政策不渲染侧边栏，顶栏带 Logo，其余页面侧边栏 + 纯功能顶栏。
 // 路由尚未解析出 name 时按「独立页」处理：否则首帧会误挂载侧边栏，
 // 触发它 onMounted 里的路由预热，未登录用户在登录页就会白下 9 个业务页面 chunk。
@@ -130,7 +134,9 @@ onUnmounted(() => window.removeEventListener('scroll', onShellScroll));
       只能刷新恢复」。视图切换必须即时生效，不能依赖动画完成。
     -->
     <div class="view-host" :data-view-route="route.fullPath">
-      <router-view />
+      <div class="view-page" :class="{ 'view-page-enter': animateView }" :key="route.path">
+        <router-view />
+      </div>
     </div>
   </div>
 
@@ -160,7 +166,9 @@ onUnmounted(() => window.removeEventListener('scroll', onShellScroll));
       <AppTopbar v-if="!shellNavTop" />
       <!-- 同上：视图切换不得被转场动画门控 -->
       <div class="view-host" :data-view-route="route.fullPath">
-        <router-view />
+        <div class="view-page" :class="{ 'view-page-enter': animateView }" :key="route.path">
+          <router-view />
+        </div>
       </div>
     </main>
   </div>
@@ -189,3 +197,19 @@ onUnmounted(() => window.removeEventListener('scroll', onShellScroll));
     @open-sidebar="sidebarOpen = true"
   />
 </template>
+
+<style scoped>
+/* 只做入场，不做退场：新页面立即挂载，后台标签页不执行动画也不会卡住导航 */
+.view-page-enter {
+  animation: view-page-in 0.24s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+@keyframes view-page-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .view-page-enter { animation: none; }
+}
+</style>
