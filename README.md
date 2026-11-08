@@ -2,7 +2,7 @@
 
 CTY 飞行管制社区（CTYFLY）的官网与运营平台：**Vue 3 前端 + Python FastAPI 后端**，Apple 风格玻璃拟态（Glassmorphism）UI，前后端完全分离、各自独立依赖。覆盖账号体系、航情与航路、连飞活动、工单、虚拟航司（VA）运营、市场与经济、成就、桌宠 AI 与管理后台。
 
-- 🌐 线上：https://ccflysim.cn（测试环境：https://test.ccflysim.cn）
+- 🌐 线上：https://www.ccflysim.cn（测试环境：https://test.ccflysim.cn）
 - 🧩 同作者项目：**CWFLY**（[CWFLY-WEB](https://github.com/yuanshen-123-ui/CWFLY-WEB) / [CWFLY-FSD](https://github.com/yuanshen-123-ui/CWFLY-FSD) 等 6 个仓库）
 
 ---

@@ -33,7 +33,7 @@ describe('localDate 与 localMonth', () => {
 
 describe('safeHttpUrl', () => {
   it('允许 https 与 http', () => {
-    expect(safeHttpUrl('https://ccflysim.cn/docs')).toBe('https://ccflysim.cn/docs');
+    expect(safeHttpUrl('https://www.ccflysim.cn/docs')).toBe('https://www.ccflysim.cn/docs');
     expect(safeHttpUrl('http://example.com')).toBe('http://example.com');
   });
 
