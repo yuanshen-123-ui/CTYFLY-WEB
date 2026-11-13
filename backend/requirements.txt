@@ -1,4 +1,4 @@
-fastapi>=0.110
+fastapi>=0.162.3
 uvicorn>=0.29
 gunicorn>=22
 cachetools>=5.3
