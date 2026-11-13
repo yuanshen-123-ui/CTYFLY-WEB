@@ -24,6 +24,8 @@
 # ---- 直接依赖（= requirements.txt 的实装版本）----
 fastapi==0.141.1
 uvicorn==0.53.0
+gunicorn==27.0.1
+cachetools==7.3.1
 httpx==0.28.1
 PyJWT==2.14.0
 bcrypt==5.0.0

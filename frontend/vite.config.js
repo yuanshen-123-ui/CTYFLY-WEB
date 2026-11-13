@@ -1,6 +1,7 @@
 import { execSync } from 'node:child_process';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 /** 构建标识：git 短哈希 + 构建时间，注入到前端代码里，诊断面板会显示它。
  *  作用：出现问题时能立刻确认「浏览器里跑的是哪一版」，避免对着旧代码排查。*/
@@ -85,23 +86,40 @@ function obfuscateAppChunks() {
 }
 
 export default defineConfig({
-  plugins: [vue(), obfuscateAppChunks()],
+  plugins: [
+    vue(),
+    obfuscateAppChunks(),
+    process.env.ANALYZE === '1' && visualizer({
+      filename: 'dist/stats.html',
+      template: 'treemap',
+      gzipSize: true,
+      brotliSize: true,
+      open: false,
+    }),
+  ].filter(Boolean),
   define: {
     __BUILD_ID__: JSON.stringify(buildId()),
   },
   build: {
     // 绝不出 sourcemap：map 文件会把混淆后的代码 1:1 还原成源码
     sourcemap: false,
-    // 默认把每个路由的 CSS 拆成独立文件，由 Vite 的运行时预加载器动态注入 <link>。
-    // 但混淆，尤其 stringArray 会破坏那段注入逻辑，导致路由组件的 <style scoped> 静默失效，
-    // 表现为「布局莫名其妙变了」。关掉拆分后所有 CSS 由 index.html 一次性引入，不再依赖运行时。
-    // CSS_SPLIT=1 可临时恢复拆分，仅用于 A/B 对比排查。
-    cssCodeSplit: process.env.CSS_SPLIT === '1',
+    // 小资源内联可以减少请求数；大图仍会独立输出
+    assetsInlineLimit: 4096,
+    chunkSizeWarningLimit: 600,
+    // 混淆开启时保持单 CSS 文件，避免运行时注入逻辑被破坏；正常构建按路由拆分
+    cssCodeSplit: OBFUSCATE ? false : process.env.CSS_SPLIT !== '0',
     rollupOptions: {
       output: {
-        // 把 node_modules 拆成独立 vendor chunk，便于上面按文件名跳过混淆
+        // Vue 运行时单独成块，业务依赖放 vendor，利用长期缓存并避免单块过大
         manualChunks(id) {
-          if (id.includes('node_modules')) return 'vendor';
+          if (!id.includes('node_modules')) return;
+          if (/[\\/]node_modules[\\/](vue|@vue|vue-router|pinia)[\\/]/.test(id)) {
+            return 'vue-vendor';
+          }
+          if (/[\\/]node_modules[\\/](echarts|zrender)[\\/]/.test(id)) {
+            return 'charts';
+          }
+          return 'vendor';
         },
       },
     },

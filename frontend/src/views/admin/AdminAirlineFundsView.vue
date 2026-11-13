@@ -9,6 +9,7 @@
  */
 import { computed, onMounted, ref } from 'vue';
 import { api } from '../../api.js';
+import { confirmModal } from '../../modal.js';
 import { showToast } from '../../utils.js';
 import Icon from '../../components/Icon.vue';
 import SelectMenu from '../../components/SelectMenu.vue';
@@ -70,7 +71,12 @@ async function submitGrant() {
   if (!amount || amount <= 0) return showToast('请填写发放金额');
   const n = grantTargets.value.length;
   if (!n) return showToast('没有符合条件的航司');
-  if (!window.confirm(`将向 ${n} 家航司各发放 ${money(amount)}，合计 ${money(amount * n)}。确认发放？`)) return;
+  const ok = await confirmModal({
+    title: '确认批量发放',
+    message: `将向 ${n} 家航司各发放 ${money(amount)}，合计 ${money(amount * n)}。`,
+    confirmText: '确认发放',
+  });
+  if (!ok) return;
   granting.value = true;
   try {
     const r = await api.post('/api/admin/airlines/funds/grant', {
@@ -92,7 +98,13 @@ async function submitAdjust() {
   if (!amount) return showToast('请填写调整金额，正数发放，负数扣除');
   if (adjust.value.airlineId === null) return showToast('请选择航司');
   const target = airlines.value.find((a) => a.id === adjust.value.airlineId);
-  if (!window.confirm(`确认将「${target?.name || adjust.value.airlineId}」余额调整 ${amount > 0 ? '+' : ''}${money(amount)}？`)) return;
+  const ok = await confirmModal({
+    title: '确认余额调整',
+    message: `确认将「${target?.name || adjust.value.airlineId}」余额调整 ${amount > 0 ? '+' : ''}${money(amount)}？`,
+    confirmText: '确认调整',
+    danger: amount < 0,
+  });
+  if (!ok) return;
   adjusting.value = true;
   try {
     const r = await api.post('/api/admin/airlines/funds/adjust', {

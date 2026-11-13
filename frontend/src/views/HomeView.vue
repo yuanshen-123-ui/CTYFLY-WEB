@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue';
 import { api } from '../api.js';
 import { fmtTime } from '../utils.js';
 import Icon from '../components/Icon.vue';
-import acisGlyph from '../assets/acis-glyph.png';
 import acisGlyph400Avif from '../assets/acis-glyph-400.avif';
 import acisGlyph800Avif from '../assets/acis-glyph-800.avif';
 import acisGlyph400Webp from '../assets/acis-glyph-400.webp';
@@ -46,7 +45,7 @@ onMounted(async () => {
       <picture class="acis-entry-picture">
         <source type="image/avif" :srcset="`${acisGlyph400Avif} 400w, ${acisGlyph800Avif} 800w`" sizes="(max-width: 620px) 76px, 112px" />
         <source type="image/webp" :srcset="`${acisGlyph400Webp} 400w, ${acisGlyph800Webp} 800w`" sizes="(max-width: 620px) 76px, 112px" />
-        <img :src="acisGlyph" alt="ACIS" class="acis-entry-logo" width="1600" height="576" fetchpriority="high" decoding="async" />
+        <img :src="acisGlyph800Webp" alt="ACIS" class="acis-entry-logo" width="1600" height="576" fetchpriority="high" decoding="async" />
       </picture>
       <span class="acis-entry-copy">
         <span class="acis-entry-title">ACIS 飞圈事件检索</span>
