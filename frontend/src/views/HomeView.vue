@@ -33,7 +33,7 @@ onMounted(async () => {
         <router-link class="btn btn-ghost btn-lg" to="/login">立即登录</router-link>
         <a
           target="_blank"
-          href="https://qm.qq.com/cgi-bin/qm/qr?k=xX5rJgrrA98XZZjEzZ02QgA8MMUTwXFW&jump_from=webapi&authKey=o04NKjyHYlbl32mZH3fwbOTAyuYV0Kzkncuba2VI6kZ6gbqx4fUrtK9fZjmcO+Di"
+          href="https://qm.qq.com/q/en9o9oPz1K"
           title="『CTY』垂天云飞友集团"
           class="qq-join-btn"
         >加入QQ群</a>
