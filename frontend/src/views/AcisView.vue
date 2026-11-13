@@ -7,7 +7,6 @@ import { api } from '../api.js';
 import { fmtMonth, showToast } from '../utils.js';
 import Icon from '../components/Icon.vue';
 import AcisAgreementModal from '../components/acis/AcisAgreementModal.vue';
-import acisGlyph from '../assets/acis-glyph.png';
 import acisGlyph400Webp from '../assets/acis-glyph-400.webp';
 import acisGlyph800Avif from '../assets/acis-glyph-800.avif';
 import acisGlyph1280Avif from '../assets/acis-glyph-1280.avif';
@@ -101,7 +100,7 @@ load();
             <picture class="acis-hero-picture">
               <source type="image/avif" :srcset="`${acisGlyph800Avif} 800w, ${acisGlyph1280Avif} 1280w`" sizes="(max-width: 720px) 94vw, 560px" />
               <source type="image/webp" :srcset="`${acisGlyph800Webp} 800w, ${acisGlyph1280Webp} 1280w`" sizes="(max-width: 720px) 94vw, 560px" />
-              <img :src="acisGlyph" alt="ACIS" class="acis-hero-glyph" width="1600" height="576" fetchpriority="high" decoding="async" />
+              <img :src="acisGlyph800Webp" alt="ACIS" class="acis-hero-glyph" width="1600" height="576" fetchpriority="high" decoding="async" />
             </picture>
           </div>
         </div>

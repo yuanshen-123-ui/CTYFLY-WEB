@@ -1,0 +1,41 @@
+﻿
+/* 原生控件外观清零：所有可见控件均由自研样式系统接管 */
+.input,
+.textarea,
+.input-row input,
+input[type='search'],
+input[type='number'],
+input[type='password'],
+input[type='email'],
+input[type='date'],
+input[type='datetime-local'] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] { -moz-appearance: textfield; }
+
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='datetime-local']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+textarea { resize: vertical; }
+
+.btn,
+button { -webkit-tap-highlight-color: transparent; }

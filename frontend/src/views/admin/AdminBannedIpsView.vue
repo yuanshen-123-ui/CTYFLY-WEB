@@ -8,6 +8,7 @@
  */
 import { computed, onMounted, ref } from 'vue';
 import { api } from '../../api.js';
+import { confirmModal } from '../../modal.js';
 import { showToast } from '../../utils.js';
 import Icon from '../../components/Icon.vue';
 import SelectMenu from '../../components/SelectMenu.vue';
@@ -49,7 +50,12 @@ async function load() {
 onMounted(load);
 
 async function unban(ip) {
-  if (!window.confirm(`确定解封 ${ip}？解除后该 IP 可以再次注册/登录。`)) return;
+  const ok = await confirmModal({
+    title: '解除 IP 封禁',
+    message: `确定解封 ${ip}？解除后该 IP 可以再次注册/登录。`,
+    confirmText: '确认解封',
+  });
+  if (!ok) return;
   try {
     const r = await api.delete(`/api/admin/banned-ips/${encodeURIComponent(ip)}`);
     showToast(r.message || '已解封');
