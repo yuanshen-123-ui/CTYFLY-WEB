@@ -229,7 +229,9 @@ class GlobalRateLimitMiddleware:
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http" and RATE_LIMIT_ENABLED:
             path = scope.get("path", "")
-            if path.startswith("/api/"):
+            # 机器人接口用 X-API-Key 鉴权，不套用面向浏览器的全局 IP 限流；
+            # 具体是否要求 Key 由 BOT_API_TOKEN 控制。
+            if path.startswith("/api/") and not path.startswith("/api/bot/"):
                 ip = client_ip_scope(scope)
                 ok = hit(f"global:{ip}", self.LIMIT, self.WINDOW)
                 if not ok:

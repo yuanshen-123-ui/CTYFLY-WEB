@@ -78,6 +78,12 @@ NAVDATA_SIDECAR_DIR = Path(
 )
 NAVDATA_DB = env("NAVDATA_DB")  # 可选：指定 nd.db3 的自定义位置
 
+# QQ 机器人等外部调用方的航路查询 Key。
+# 留空 = /api/bot/nav/route 不鉴权；生产环境建议设置随机长字符串，
+# 否则任何人都能无限调用航路计算。生成方式：
+#   python -c "import secrets; print(secrets.token_urlsafe(32))"
+BOT_API_TOKEN = env("BOT_API_TOKEN")
+
 JWT_SECRET = env("JWT_SECRET", "ctyfly-dev-secret-change-me")
 JWT_EXPIRES = env("JWT_EXPIRES", "6h")
 

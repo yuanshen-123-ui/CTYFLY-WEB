@@ -16,7 +16,7 @@ from . import logretention
 from .middleware import (AccessLogMiddleware, ApiMetricsMiddleware,
                          BodySizeLimitMiddleware, GlobalRateLimitMiddleware,
                          SecurityHeadersMiddleware)
-from .routers import (admin, airlines, applications, auth, captcha, events,
+from .routers import (admin, airlines, applications, auth, bot_nav, captcha, events,
                       misc, navdata, perf, pet, public_v1, shop, survey, tickets, uploads, weather)
 from .routers import dispatch, pirep, wallet
 from .routers.shop import shop_admin_router
@@ -206,6 +206,7 @@ app.include_router(captcha.router)
 app.include_router(survey.router)
 app.include_router(auth.router)
 app.include_router(public_v1.router)
+app.include_router(bot_nav.router)
 app.include_router(weather.router)
 app.include_router(events.router)
 app.include_router(events.briefing_router)
