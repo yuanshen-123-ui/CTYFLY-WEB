@@ -74,7 +74,7 @@ onMounted(async () => {
 
     
     <footer style="margin-top: auto; padding-top: 40px; text-align: center">
-      <p style="color: var(--gray); font-size: 12.5px">© 2026 CTYFLY - All rights reserved</p>
+      <p style="color: var(--gray); font-size: 12.5px">Copyright © 2026 CTYFLY by Tearsvow All rights reserved</p>
       <div class="footer-links">
         <router-link to="/about" class="footer-link">关于我们</router-link>
         <router-link to="/docs" class="footer-link">发展问卷</router-link>
