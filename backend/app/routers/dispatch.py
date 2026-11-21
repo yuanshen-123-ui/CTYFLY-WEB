@@ -40,7 +40,7 @@ def list_fleet(airline_id: int, user: dict = Depends(require_auth)):
 @router.post("/{airline_id}/fleet/purchase")
 def purchase_aircraft(airline_id: int, body: FleetPurchaseBody, request: Request,
                             user: dict = Depends(require_auth)):
-    """CEO 用个人钱包购置飞机进机队"""
+    """CEO 用航司余额购置飞机进机队"""
     enforce(request, "fleet-buy", 5, 3600)
     key = body.aircraft.strip().upper()
     if key not in FLEET_CATALOG:
@@ -48,31 +48,37 @@ def purchase_aircraft(airline_id: int, body: FleetPurchaseBody, request: Request
     spec = FLEET_CATALOG[key]
     with get_conn() as conn:
         _require_ceo(conn, airline_id, user["id"])
-        # 原子扣费：条件更新防并发双花
-        cur_w = conn.execute(
-            "UPDATE wallets SET balance = balance - ?"
-            " WHERE user_id = ? AND balance >= ?",
-            (spec["price"], user["id"], spec["price"]),
-        )
-        if cur_w.rowcount == 0:
-            w = conn.execute("SELECT balance FROM wallets WHERE user_id = ?", (user["id"],)).fetchone()
-            raise HTTPException(400, f"钱包余额不足，购置 {spec['name']} 需要 {spec['price']}，当前 {w['balance'] if w else 0}")
-        reg = _gen_reg(conn)
-        conn.execute(
-            "INSERT INTO wallet_records (user_id, amount, type, note) VALUES (?, ?, 'purchase', ?)",
-            (user["id"], -spec["price"], f"购置 {spec['name']} {reg}"),
-        )
-        # 运营地理：新飞机交付到主基地，未设主基地则先要求设定
-        a_row = conn.execute("SELECT hub FROM airlines WHERE id = ?", (airline_id,)).fetchone()
+        # 运营地理：新飞机交付到主基地，先在扣款前校验，避免无谓资金变动
+        a_row = conn.execute("SELECT hub, balance FROM airlines WHERE id = ?", (airline_id,)).fetchone()
         hub = (a_row["hub"] if a_row else "") or ""
         if not hub:
             raise HTTPException(400, "请先在航司设置中设定主基地机场，再购置飞机")
+
+        # 从航司余额原子扣费：条件更新防并发双花
+        cur = conn.execute(
+            "UPDATE airlines SET balance = balance - ?"
+            " WHERE id = ? AND balance >= ?",
+            (spec["price"], airline_id, spec["price"]),
+        )
+        if cur.rowcount == 0:
+            balance = a_row["balance"] if a_row else 0
+            raise HTTPException(
+                400,
+                f"航司余额不足，购置 {spec['name']} 需要 {spec['price']}，当前 {balance}",
+            )
+
+        # 与公司余额同事务写账本，保持 SUM(airline_ledger.amount) == airlines.balance
+        reg = _gen_reg(conn)
+        conn.execute(
+            "INSERT INTO airline_ledger (airline_id, amount, type, note) VALUES (?, ?, 'expense', ?)",
+            (airline_id, -spec["price"], f"购置 {spec['name']} {reg}"),
+        )
         cur = conn.execute(
             "INSERT INTO airline_fleet (airline_id, aircraft, reg, location) VALUES (?, ?, ?, ?)",
             (airline_id, key, reg, hub),
         )
         _audit(request, "airline", "购置飞机", actor=user, target_id=airline_id,
-               detail=f"{spec['name']} {reg} · {spec['price']} · 交付 {hub}")
+               detail=f"{spec['name']} {reg} · 航司余额支付 {spec['price']} · 交付 {hub}")
     return {"ok": True, "id": cur.lastrowid, "reg": reg, "message": f"购置成功：{spec['name']} {reg}，已交付主基地 {hub}"}
 
 @router.post("/{airline_id}/dispatches")

@@ -151,7 +151,7 @@ async function doFerry(f) {
         <div class="card-title" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
           <Icon name="shop" :size="16" /> 机型购置目录
           <template v-if="va.isCEO">
-            <span class="card-sub" style="margin: 0">从你的钱包扣款</span>
+            <span class="card-sub" style="margin: 0">从航司余额扣款</span>
           </template>
         </div>
         <div class="card-sub" style="margin-bottom: 10px">

@@ -34,7 +34,7 @@ def scene(conn):
     ceo = make_user(conn, cid="7201", username="smoke_ceo")
     member = make_user(conn, cid="7202", username="smoke_member")
     aid = make_airline(conn, owner_id=ceo, balance=0, hourly_rate=100, distance_rate=1)
-    _airline_fund_move(conn, aid, 200000, "【测试】航司期初资金")
+    _airline_fund_move(conn, aid, 700000, "【测试】航司期初资金")
     for uid, role in ((ceo, "ceo"), (member, "pilot")):
         conn.execute(
             "INSERT INTO airline_members (airline_id, user_id, role, status) VALUES (?, ?, ?, 'active')",
@@ -176,11 +176,15 @@ def test_charter_creation(client, scene):
     assert r.status_code < 500, r.text[:300]
 
 
-def test_fleet_purchase_uses_ceo_wallet_and_keeps_ledger_invariant(client, scene):
-    """CEO 用个人钱包购置飞机：钱包减少，且不破坏「账本净额 == 航司余额」"""
+def test_fleet_purchase_uses_airline_balance_and_keeps_ledger_invariant(client, scene):
+    """CEO 购置飞机从航司余额扣款：个人钱包不变，账本净额仍等于航司余额"""
+    from app.routers.airlines import FLEET_CATALOG
+
     conn, aid, ceo = scene["conn"], scene["airline_id"], scene["ceo"]
+    price = FLEET_CATALOG["A20N"]["price"]
     before_wallet = conn.execute("SELECT balance FROM wallets WHERE user_id = ?", (ceo,)).fetchone()["balance"]
     before_balance = conn.execute("SELECT balance FROM airlines WHERE id = ?", (aid,)).fetchone()["balance"]
+    before_fleet = conn.execute("SELECT COUNT(*) c FROM airline_fleet WHERE airline_id = ?", (aid,)).fetchone()["c"]
 
     r = client.post(f"/api/airlines/{aid}/fleet/purchase", json={"aircraft": "A20N"},
                     headers=auth(conn, ceo))
@@ -188,13 +192,15 @@ def test_fleet_purchase_uses_ceo_wallet_and_keeps_ledger_invariant(client, scene
 
     after_wallet = conn.execute("SELECT balance FROM wallets WHERE user_id = ?", (ceo,)).fetchone()["balance"]
     after_balance = conn.execute("SELECT balance FROM airlines WHERE id = ?", (aid,)).fetchone()["balance"]
+    after_fleet = conn.execute("SELECT COUNT(*) c FROM airline_fleet WHERE airline_id = ?", (aid,)).fetchone()["c"]
     ledger_net = conn.execute(
         "SELECT COALESCE(SUM(amount), 0) s FROM airline_ledger WHERE airline_id = ?", (aid,)
     ).fetchone()["s"]
     assert ledger_net == after_balance, "账本恒等式（期初走账本 → 绝对不变量）"
     if r.status_code == 200:
-        assert after_wallet < before_wallet, "购置应扣 CEO 个人钱包"
-        assert before_balance == after_balance, "购置飞机不动公司余额"
+        assert after_wallet == before_wallet, "购置飞机不应扣 CEO 个人钱包"
+        assert after_balance == before_balance - price, "购置飞机应从航司余额扣款"
+        assert after_fleet == before_fleet + 1, "购置后机队应增加一架"
 
 
 # ---------- 薪酬报表 ----------
